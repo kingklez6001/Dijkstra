@@ -1,0 +1,53 @@
+*{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    background: #16222A;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #3A6073, #16222A);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #3A6073, #16222A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+}
+
+.heading{
+    color: white;
+    font-size: 20px;
+    padding: 10px;
+    text-transform: capitalize;
+}
+
+.wrapper{
+    height: 600px;
+    width: 600px;
+    border: 1px solid white;
+}
+
+#map{
+    height: inherit;
+    width: inherit;
+    position: relative;
+}
+
+.location{
+    background-color: white;
+    height: 6px;
+    width: 6px;
+    color: white;
+    text-align: center;
+    text-indent: 10px;
+    position: absolute;
+}
+
+.exec{
+    padding: 10px;
+}
+
+#myCanvas{
+    /* background-color: red; */
+    position: absolute;
+}

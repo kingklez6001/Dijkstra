@@ -8,7 +8,19 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+    <div class="heading">
+        <h1>Shortest Path between two locations </h1>
+    </div>
+    <div class="wrapper">
+        <canvas id="myCanvas" width="600" height="600"></canvas>
+        <div id="map"></div>
+    </div>
+    <div class="exec">
+        <input type="text" placeholder="Enter source location">
+        <input type="text" placeholder="Enter destination">
+        <button onclick="generateMap()">Generate Map</button>
+        <button onclick="findShortestPath()">Find Shortest Path</button>
+    </div>
 </body>
 <script src="script.js"></script>
 </html>
