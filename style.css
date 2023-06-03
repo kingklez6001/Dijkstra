@@ -24,7 +24,7 @@ flex-direction: column;
 .wrapper{
     height: 600px;
     width: 600px;
-    border: 1px solid white;
+    /* border: 1px solid white; */
 }
 
 #map{
@@ -50,4 +50,9 @@ flex-direction: column;
 #myCanvas{
     /* background-color: red; */
     position: absolute;
+}
+
+#source,#destination{
+    width: 100px;
+    margin-right: 20px;
 }

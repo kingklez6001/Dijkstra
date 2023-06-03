@@ -1,4 +1,6 @@
 const map = document.getElementById("map");
+const dropdowns = document.querySelectorAll(".dropdowns");
+// let shortestPath = [];
 
 class Graph {
   constructor() {
@@ -75,14 +77,28 @@ class Graph {
   }
 }
 
-function drawEdge(x, y) {
+var graph = new Graph();
+window.onload(generateMap(graph));
+
+function drawEdge(x, y, color) {
   let canvas = document.getElementById("myCanvas");
   let ctx = canvas.getContext("2d");
-  ctx.strokeStyle = "white";
-  console.log(x.style.left.replace("px", ""), x.style.top);
+
+  ctx.strokeStyle = color;
+  // console.log(x.style.left, x.style.top);
   ctx.moveTo(x.style.left.replace("px", ""), x.style.top.replace("px", "")); // Starting point of line
   ctx.lineTo(y.style.left.replace("px", ""), y.style.top.replace("px", "")); // Ending point of line
   ctx.stroke();
+}
+
+function clearCanvas() {
+  let canvas = document.getElementById("myCanvas");
+  let ctx = canvas.getContext("2d");
+  ctx.save();
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.restore();
+  ctx.beginPath();
 }
 
 function locName(x) {
@@ -123,10 +139,9 @@ function rhandum(x) {
   return Math.floor(Math.random() * x);
 }
 
-function generateMap() {
+function generateMap(graph) {
   clearCanvas();
   map.innerHTML = " ";
-  const graph = new Graph();
   let i;
   let NoP = rhandum(10);
   while (NoP <= 5) {
@@ -135,14 +150,23 @@ function generateMap() {
   for (i = 0; i < NoP; i++) {
     const newEl = document.createElement("div");
     newEl.classList.add("location");
-    newEl.classList.add(`${locName(i)}`);
+    newEl.setAttribute("id", `${locName(i)}`);
+    // newEl.classList.add(`${locName(i)}`);
     newEl.style.top = `${rhandum(600)}px`;
     newEl.style.left = `${rhandum(600)}px`;
     newEl.innerText = `${locName(i)}`;
+    createDropDown(locName(i));
     graph.addVertex(`${locName(i)}`);
     map.appendChild(newEl);
   }
   generateEdges(NoP);
+}
+
+function createDropDown(option) {
+  for (let i = 0; i < 2; i++) {
+    dropdowns[i].innerHTML +=
+      `<option value=` + `"${option}"` + `>${option}</option>`;
+  }
 }
 
 function generateEdges(NoP) {
@@ -151,26 +175,34 @@ function generateEdges(NoP) {
     NoL = rhandum(NoP * 2);
   }
   const vertices = document.querySelectorAll(".location");
-  let i;
+  let i, x, y, weight;
   for (i = 0; i < NoL; i++) {
+    x = locName(rhandum(NoP));
+    y = locName(rhandum(NoP));
+    weight = rhandum(20);
+    graph.addEdge(`${x}`, `${y}`, weight);
+
     drawEdge(
-      document.querySelector(`.${locName(rhandum(NoP))}`),
-      document.querySelector(`.${locName(rhandum(NoP))}`)
+      document.querySelector(`#${x}`),
+      document.querySelector(`#${y}`),
+      "white"
     );
   }
 }
 
-// Example usage:
-
-// graph.addEdge("A", "B", 4);
-// graph.addEdge("A", "C", 2);
-// graph.addEdge("B", "E", 3);
-// graph.addEdge("C", "D", 2);
-// graph.addEdge("D", "E", 3);
-
-// const { path, distance } = graph.shortestPath("A", "E");
-
-// console.log("Shortest path:", path); // Output: ["A", "C", "D", "E"]
-// console.log("Distance:", distance); // Output: 7
-
-function findShortestPath() {}
+function findShortestPath() {
+  const source = document.getElementById("source").value.toUpperCase();
+  const destination = document
+    .getElementById("destination")
+    .value.toUpperCase();
+  const { path, distance } = graph.shortestPath(source, destination);
+  console.log(path, distance);
+  let x, y;
+  clearCanvas();
+  for (let i = 0; i < path.length - 1; i++) {
+    x = document.getElementById(`${path[i]}`);
+    y = document.getElementById(`${path[i + 1]}`);
+    // console.log(x, y);
+    drawEdge(x, y, "green");
+  }
+}

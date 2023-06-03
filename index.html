@@ -16,9 +16,11 @@
         <div id="map"></div>
     </div>
     <div class="exec">
-        <input type="text" placeholder="Enter source location">
-        <input type="text" placeholder="Enter destination">
-        <button onclick="generateMap()">Generate Map</button>
+        <select type="text" placeholder="Enter source location"id="source" class="dropdowns">
+        </select>
+        <select type="text" placeholder="Enter destination"id="destination"class="dropdowns">
+        </select>
+        <button onclick="generateMap(graph)">Generate Map</button>
         <button onclick="findShortestPath()">Find Shortest Path</button>
     </div>
 </body>
