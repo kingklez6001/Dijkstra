@@ -191,6 +191,10 @@ function generateEdges(NoP) {
   for (i = 0; i < NoL; i++) {
     x = locName(rhandum(NoP));
     y = locName(rhandum(NoP));
+    while (x == y) {
+      x = locName(rhandum(NoP));
+      y = locName(rhandum(NoP));
+    }
     mapVertices.push([x, y]);
     weight = rhandum(20);
     createTable(x, y, weight);
