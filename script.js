@@ -1,6 +1,6 @@
 const map = document.getElementById("map");
 const dropdowns = document.querySelectorAll(".dropdowns");
-// let shortestPath = [];
+let mapVertices = [];
 
 class Graph {
   constructor() {
@@ -79,6 +79,7 @@ class Graph {
 
 var graph = new Graph();
 window.onload(generateMap(graph));
+// window.onerror(alert("hey"));
 
 function drawEdge(x, y, color) {
   let canvas = document.getElementById("myCanvas");
@@ -140,7 +141,9 @@ function rhandum(x) {
 }
 
 function generateMap(graph) {
+  mapVertices = [];
   clearCanvas();
+  clearDropDowns();
   map.innerHTML = " ";
   let i;
   let NoP = rhandum(10);
@@ -162,6 +165,12 @@ function generateMap(graph) {
   generateEdges(NoP);
 }
 
+function clearDropDowns() {
+  for (let i = 0; i < 2; i++) {
+    dropdowns[i].innerHTML = "";
+  }
+}
+
 function createDropDown(option) {
   for (let i = 0; i < 2; i++) {
     dropdowns[i].innerHTML +=
@@ -179,6 +188,7 @@ function generateEdges(NoP) {
   for (i = 0; i < NoL; i++) {
     x = locName(rhandum(NoP));
     y = locName(rhandum(NoP));
+    mapVertices.push([x, y]);
     weight = rhandum(20);
     graph.addEdge(`${x}`, `${y}`, weight);
 
@@ -190,19 +200,34 @@ function generateEdges(NoP) {
   }
 }
 
-function findShortestPath() {
+function showShortestPath() {
   const source = document.getElementById("source").value.toUpperCase();
   const destination = document
     .getElementById("destination")
     .value.toUpperCase();
-  const { path, distance } = graph.shortestPath(source, destination);
-  console.log(path, distance);
+  try {
+    const { path, distance } = graph.shortestPath(source, destination);
+    console.log(path, distance);
+    let x, y;
+    clearCanvas();
+    for (let i = 0; i < path.length - 1; i++) {
+      x = document.getElementById(`${path[i]}`);
+      y = document.getElementById(`${path[i + 1]}`);
+      drawEdge(x, y, "green");
+    }
+  } catch (error) {
+    alert("No path exists to this destination !!");
+  }
+}
+
+function showMap() {
   let x, y;
   clearCanvas();
-  for (let i = 0; i < path.length - 1; i++) {
-    x = document.getElementById(`${path[i]}`);
-    y = document.getElementById(`${path[i + 1]}`);
-    // console.log(x, y);
-    drawEdge(x, y, "green");
+  console.log(mapVertices);
+  for (let i = 0; i < mapVertices.length; i++) {
+    x = document.getElementById(`${mapVertices[i][0]}`);
+    y = document.getElementById(`${mapVertices[i][1]}`);
+    drawEdge(x, y, "white");
+    console.log(x, y);
   }
 }
