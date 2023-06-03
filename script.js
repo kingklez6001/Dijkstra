@@ -1,5 +1,7 @@
 const map = document.getElementById("map");
 const dropdowns = document.querySelectorAll(".dropdowns");
+const showDetail = document.getElementById("showDetail");
+const table = document.getElementById("table");
 let mapVertices = [];
 
 class Graph {
@@ -144,6 +146,7 @@ function generateMap(graph) {
   mapVertices = [];
   clearCanvas();
   clearDropDowns();
+  clearTable();
   map.innerHTML = " ";
   let i;
   let NoP = rhandum(10);
@@ -190,6 +193,7 @@ function generateEdges(NoP) {
     y = locName(rhandum(NoP));
     mapVertices.push([x, y]);
     weight = rhandum(20);
+    createTable(x, y, weight);
     graph.addEdge(`${x}`, `${y}`, weight);
 
     drawEdge(
@@ -201,6 +205,7 @@ function generateEdges(NoP) {
 }
 
 function showShortestPath() {
+  showDetail.innerText = "";
   const source = document.getElementById("source").value.toUpperCase();
   const destination = document
     .getElementById("destination")
@@ -215,6 +220,7 @@ function showShortestPath() {
       y = document.getElementById(`${path[i + 1]}`);
       drawEdge(x, y, "green");
     }
+    showDetail.innerText = `Path Cost = ${distance}`;
   } catch (error) {
     alert("No path exists to this destination !!");
   }
@@ -230,4 +236,13 @@ function showMap() {
     drawEdge(x, y, "white");
     console.log(x, y);
   }
+}
+
+function clearTable() {
+  // table.innerHTML = " ";
+  table.innerHTML = `<tr><td>Source</td><td>Destination</td><td>Cost</td></tr>`;
+}
+
+function createTable(x, y, cost) {
+  table.innerHTML += `<tr><td>${x}</td><td>${y}</td><td>${cost}</td></tr>`;
 }
